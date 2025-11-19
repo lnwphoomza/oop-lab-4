@@ -25,7 +25,7 @@ class SwimmingCreature(Creature):
 
     def dive_to(self, depth):
         self.depth += depth
-        print(f'Aqua Serpent dives to depth {depth} meters.')
+        print(f'{self.name} dives to depth {depth} meters.')
     
     def attack(self, target):
         if not self.is_alive():
@@ -34,9 +34,9 @@ class SwimmingCreature(Creature):
         
         target.hp -= self.attack_power
 
-        print(f'Aqua Serpent attacks from underwater at depth {self.depth}!')
-        print(f'It splashes Practice Dummy for {self.attack_power} damage!')
-        print(f'Practice Dummy HP is now {target.hp}')
+        print(f'{self.name} attacks from underwater at depth {self.depth}!')
+        print(f'It splashes Practice {target} for {self.attack_power} damage!')
+        print(f'Practice {self.name} HP is now {target.hp}')
 
 # ===============================
 # FlyingCreature Branch
@@ -49,20 +49,41 @@ class FlyingCreature(Creature):
 
     def fly_to(self, new_altitude):
         self.altitude = new_altitude
-        print(f'Sky Hawk flies to altitude {self.altitude} meters.')
+        print(f'{self.name} flies to altitude {self.altitude} meters.')
     
     def attack(self, target):
         if not self.is_alive():
             print(f"{self.name} cannot attack because it is defeated.")
             return
         
-        print(f'Sky Hawk swoops down from altitude {self.altitude}!')
+        print(f'{self.name} swoops down from altitude {self.altitude}!')
 
         target.hp -= self.attack_power
         
-        print(f'Sky Hawk performs an aerial attack on Practice {target} for {self.attack_power} damage!')
+        print(f'{self.name} performs an aerial attack on {target} for {self.attack_power} damage!')
 
+class FireCreature(Creature):
+    def __init__(self, name, hp, attack_power):
+        super().__init__(name, hp, attack_power)
+        self.fire_level = 0
 
+    def emit_fire(self, new_fire_level):
+        self.fire_level = new_fire_level
+        print(f'The emit fire is {self.fire_level}')
+    
+    def Override_attack(self, new_fire_level):
+        self.fire_level += new_fire_level
+        print(f'The override attack is {self.fire_level}')
+
+    def attack(self, target):
+        if not self.is_alive():
+            print(f"{self.name} cannot attack because it is defeated.")
+            return
+
+        target.hp -= self.attack_power
+        
+        print(f'{self.name} performs an aerial attack on {target} for {self.attack_power} damage!')
+    
 if __name__ == "__main__":
     print("=== Creature Class Tests ===\n")
 
@@ -131,6 +152,13 @@ if __name__ == "__main__":
 
     dummy = Creature("Practice Dummy", 40, 0)
     serpent.attack(dummy)
+    print(f"Dummy HP should be 33 → Actual: {dummy.hp}")
+    print()
+    print("=== Tests Completed ===")
+    print()
+
+    fire = FireCreature("Fire", 80, 10)
+    fire.attack(dummy)
     print(f"Dummy HP should be 33 → Actual: {dummy.hp}")
     print()
     print("=== Tests Completed ===")
